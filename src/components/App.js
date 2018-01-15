@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     let thumbnails = [];
     for(var i=0; i<10; i++){
-      thumbnails.push(<Thumbnail vid="TLeGEqZBzqg" key={i}/>);
+      thumbnails.push(<Thumbnail vid="TLeGEqZBzqg" titre="titre" key={i}/>);
     }
 
     return (

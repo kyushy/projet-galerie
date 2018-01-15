@@ -12,7 +12,7 @@ class Thumbnail extends Component {
       return (
         <div className="Thumbnail col-md-3">
             <img src={this.state.url} alt="thumbnail" width="150" height="150"/>
-            <div>Blabla</div>
+            <div>{this.props.titre}</div>
         </div>
       );
     }
