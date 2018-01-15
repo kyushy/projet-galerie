@@ -10,7 +10,7 @@ class Thumbnail extends Component {
 
     render() {
       return (
-        <div className="Thumbnail">
+        <div className="Thumbnail col-md-3">
             <img src={this.state.url} alt="thumbnail" width="150" height="150"/>
             <div>Blabla</div>
         </div>

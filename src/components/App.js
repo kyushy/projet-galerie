@@ -5,16 +5,20 @@ import '../css/App.css';
 
 class App extends Component {
   render() {
+    let thumbnails = [];
+    for(var i=0; i<10; i++){
+      thumbnails.push(<Thumbnail vid="TLeGEqZBzqg" key={i}/>);
+    }
+
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Coucou mika</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Thumbnail vid="TLeGEqZBzqg"/>
+        <div className="container">
+          <div className="row">{thumbnails}</div>
+        </div>
       </div>
     );
   }
