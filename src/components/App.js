@@ -28,14 +28,15 @@ class App extends Component {
   }
 
   showVideo(key){
-    ReactDOM.render(<Video vid={this.state.videos[key].id} titre={this.state.videos[key].titre} desc={this.state.videos[key].desc}/>, 
-      document.getElementById('root'));
+    console.log(key);
+    /*ReactDOM.render(<Video vid={this.state.videos[key].id} titre={this.state.videos[key].titre} desc={this.state.videos[key].desc}/>, 
+      document.getElementById('root'));*/
   }
 
   render() {
 
     let thumbnails = Object.keys(this.state.videos).map((key, index) => 
-    <Thumbnail vid={this.state.videos[key].id} titre={this.state.videos[key].titre} key={index} ThumbWasClicked={this.showVideo.bind(this)}/>)
+    <Thumbnail video={this.state.videos[key]} key={index} ThumbWasClicked={this.showVideo.bind(this)}/>)
 
     return (
       <div className="App">
