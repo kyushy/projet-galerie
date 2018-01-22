@@ -28,11 +28,9 @@ class Thumbnail extends Component {
     }   
 
     render() {
-      return (
-        <div className="Thumbnail col-sm-4 col-md-3 col-lg-2" onClick={() => this.props.ThumbWasClicked(this.props.video)}>
-            <div className="thumb" >
-            <img className="thumb-img" src={this.state.url} alt="thumbnail"/>
-            <div className="overlay">
+        let overlay = null;
+        if(this.props.main){
+            overlay = <div className="overlay">
                 <div className="text">
                     {this.buildTitle(this.props.video.titre)}
                 </div>
@@ -43,7 +41,13 @@ class Thumbnail extends Component {
                     <span className={this.buildStar(4)}></span>
                     <span className={this.buildStar(5)}></span>
                 </div>
-            </div>
+            </div>;
+        }
+      return (
+        <div className={"Thumbnail "+ (this.props.main ?"col-sm-4 col-md-3 col-lg-2":"")} onClick={() => this.props.ThumbWasClicked(this.props.video)}>
+            <div className="thumb" >
+            <img className="thumb-img" src={this.state.url} alt="thumbnail"/>
+            {overlay}
             </div>
             <div>{this.props.video.titre}</div>
             

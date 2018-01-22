@@ -1,44 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import logo from '../logo.svg';
-import Thumbnail from './Thumbnail';
-import Video from './Video.js';
-import base from '../base.js';
+import Thumbnails from './Thumbnails';
 import '../css/App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    
-    this.state = {
-      videos : {}
-    };
   }
 
-  componentWillMount() {
-    // this runs right before the <App> is rendered
-    this.ref = base.syncState("videos", {
-      context: this,
-      state: 'videos'
-    });
-  }
-
-  componentWillUnmount() {
-    base.removeBinding(this.ref);
-  }
-
-  showVideo(key){
-    console.log(key);
-    var url = "https://www.youtube.com/embed/"+ key.id;
-    ReactDOM.render(<Video video={key} src={url}/>, 
-      document.getElementById('root'));
-  }
 
   render() {
-
-    let thumbnails = Object.keys(this.state.videos).map((key, index) =>
-    <Thumbnail video={this.state.videos[key]} key={index} ThumbWasClicked={this.showVideo.bind(this)}/>)
-    
     return (
       <div className="App">
         {/*<header className="App-header">
@@ -46,7 +18,7 @@ class App extends Component {
           <h1 className="App-title">Galerie MBDS</h1>
         </header>*/}
         <div className="container">
-          <div className="row">{thumbnails}</div>
+          <Thumbnails side={false}/>
         </div>
       </div>
     );
