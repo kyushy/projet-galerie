@@ -10,7 +10,7 @@ class Thumbnail extends Component {
 
     render() {
       return (
-        <div className="Thumbnail col-md-3">
+        <div className="Thumbnail col-sm-4 col-md-3 col-lg-2" onClick={() => this.props.ThumbWasClicked(this.props.vid)}>
             <img src={this.state.url} alt="thumbnail" width="150" height="150"/>
             <div>{this.props.titre}</div>
         </div>

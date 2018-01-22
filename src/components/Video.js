@@ -1,0 +1,25 @@
+import React, { Component } from 'react';
+
+class Video extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            url: "https://www.youtube.com/embed/"+ this.props.vid
+        }
+    }
+
+    render() {
+      return (
+        <div>
+            <div>{this.props.titre}</div>
+            <iframe width="560" height="315" 
+                src={this.state.url} 
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+            </iframe>
+            <div>{this.props.desc}</div>
+        </div>
+      );
+    }
+}
+  
+export default Video;
