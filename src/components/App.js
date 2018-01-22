@@ -29,7 +29,7 @@ class App extends Component {
 
   showVideo(key){
     console.log(key);
-    /*ReactDOM.render(<Video vid={this.state.videos[key].id} titre={this.state.videos[key].titre} desc={this.state.videos[key].desc}/>, 
+    /*ReactDOM.render(<Video video={key} />, 
       document.getElementById('root'));*/
   }
 
