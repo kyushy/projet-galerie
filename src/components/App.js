@@ -29,8 +29,8 @@ class App extends Component {
 
   showVideo(key){
     console.log(key);
-    /*ReactDOM.render(<Video video={key} />, 
-      document.getElementById('root'));*/
+    ReactDOM.render(<Video video={key} />, 
+      document.getElementById('root'));
   }
 
   render() {
@@ -40,10 +40,10 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
+        {/*<header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Galerie MBDS</h1>
-        </header>
+        </header>*/}
         <div className="container">
           <div className="row">{thumbnails}</div>
         </div>

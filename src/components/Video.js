@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import App from './App.js';
 
 class Video extends Component {
     constructor(props){
@@ -9,14 +10,21 @@ class Video extends Component {
     }
 
     render() {
+
       return (
-        <div>
-            <div>{this.props.video.titre}</div>
-            <iframe width="560" height="315" 
-                src={this.state.url} 
-                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-            </iframe>
-            <div>{this.props.video.desc}</div>
+        <div className="Video">
+            <div id="frame">
+                <button type="button" onClick={() => this.props.BackWasClicked()}>Retour index</button>
+                <div>{this.props.video.titre}</div>
+                <iframe width="560" height="315" title="my video"
+                    src={this.state.url} 
+                    frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen>
+                </iframe>
+                <div>{this.props.video.desc}</div>
+            </div>
+            <div id="nav">
+                <App />
+            </div>
         </div>
       );
     }
