@@ -29,15 +29,16 @@ class App extends Component {
 
   showVideo(key){
     console.log(key);
-    ReactDOM.render(<Video video={key} />, 
+    var url = "https://www.youtube.com/embed/"+ key.id;
+    ReactDOM.render(<Video video={key} src={url}/>, 
       document.getElementById('root'));
   }
 
   render() {
 
-    let thumbnails = Object.keys(this.state.videos).map((key, index) => 
+    let thumbnails = Object.keys(this.state.videos).map((key, index) =>
     <Thumbnail video={this.state.videos[key]} key={index} ThumbWasClicked={this.showVideo.bind(this)}/>)
-
+    
     return (
       <div className="App">
         {/*<header className="App-header">
