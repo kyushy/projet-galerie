@@ -6,7 +6,7 @@
     padding-right: 20px;
 }
 .side-video>div{
-    direction: rtl;
+    direction: ltr;
 }
 
 .no-padding-left {

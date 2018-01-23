@@ -2,11 +2,27 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import logo from '../logo.svg';
 import Thumbnails from './Thumbnails';
+import base from '../base.js';
 import '../css/App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      videos : {}
+    };
+  }
+
+  
+  componentWillMount() {
+    this.ref = base.syncState("videos", {
+      context: this,
+      state: 'videos'
+    });
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.ref);
   }
 
 
@@ -18,7 +34,7 @@ class App extends Component {
           <h1 className="App-title">Galerie MBDS</h1>
         </header>*/}
         <div className="container">
-          <Thumbnails side={false}/>
+          <Thumbnails videos={this.state.videos} side={false}/>
         </div>
       </div>
     );

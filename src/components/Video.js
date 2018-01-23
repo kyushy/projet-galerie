@@ -2,53 +2,93 @@ import React, { Component } from 'react';
 import App from './App.js';
 import Thumbnails from './Thumbnails';
 import Stars from './Stars';
+import base from '../base.js';
 import '../css/Video.css';
 
 class Video extends Component {
-    constructor(props){
+    constructor(props){       
         super(props);
+        this.state = {
+            videos : {},
+            video : {desc: "",
+            id: "",
+            note: {
+            nb: 0,
+            val: 0},
+            titre: ""}
+          };
     }
+
+    
+  componentDidMount() {
+    this.ref = base.syncState("videos", {
+      context: this,
+      state: 'videos',
+      then(data){
+        this.setState({
+            video: this.state.videos[this.props.match.params.video]
+        })
+      }
+    });
+    
+  }
+
+  componentWillReceiveProps(newProps){
+    this.setState({
+        video: this.state.videos[newProps.match.params.video]
+    })
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.ref);
+  }
 
     starClicked(val){
-        let ret = {
-            key : this.props.v,
-            val: val
-        }
-        this.props.StarWarsClicked(ret)
-    }
+        const {match} = this.props;
+        const videos = {...this.state.videos};
+        videos[match.params.video].note.val = ((videos[match.params.video].note.val * videos[match.params.video].note.nb) 
+        + val )/ (videos[match.params.video].note.nb+1);
+        videos[match.params.video].note.nb ++
+        this.setState({
+          videos : videos,
+          video: this.state.videos[this.props.match.params.video]
+        })
+      }
 
-    render() {
-
+    render() { 
+        
+        let url = "https://www.youtube.com/embed/"+ this.state.video.id
+        console.log(this.state.videos)
+       
       return (
         <div className="Video row">
             <div className="col-sm-2"></div>
             <div id="frame" className="col-sm-8">
-                <div className="row">
-                <button type="button" onClick={() => this.props.BackWasClicked()}>Retour index</button>
-                <div className="col-sm-12">{this.props.video.titre}</div>
+            <div className="row">
+                <div className="col-sm-12">{this.state.video.titre}</div>
                 <div className="col-sm-12">
                 <iframe width="560" height="315" title="my video"
-                    src={this.props.src} 
+                    src={url} 
                     frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen>
                 </iframe>
                 </div>
                 <div className="video-size row">
                     <div className="size-50">
-                        <Stars note={this.props.video.note.val} edit={true} StarWarsClicked={this.starClicked.bind(this)}/>
+                        <Stars note={this.state.video.note.val} edit={true} StarWarsClicked={this.starClicked.bind(this)}/>
                     </div>
                     <div className="size-50 align-right">
-                        {this.props.video.note.val.toFixed(2).replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/,'$1')}/5 avec {this.props.video.note.nb} votes
+                        {this.state.video.note.val.toFixed(2).replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/,'$1')}/5 avec {this.state.video.note.nb} votes
                     </div>
                   
                 </div>
                 <div className="col-sm-12">
-                    {this.props.video.desc}
+                    {this.state.video.desc}
                     </div>
                 </div>
             </div>
             <div id="nav" className="col-sm-2 side-video">
                 <div>
-                <Thumbnails side={true} />
+                <Thumbnails videos={this.state.videos} side={true} />
                 </div>
             </div>
         </div>
