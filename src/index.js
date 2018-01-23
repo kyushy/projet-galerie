@@ -14,9 +14,9 @@ import registerServiceWorker from './registerServiceWorker';
 const Root = () => (
       <Router>
         <Switch>
-                <Route exact path="/" component={App}/>
-                <Route path="/videos/:video" component={Video}/>
-                <Route component={NoMatch}/>
+            <Route exact path="/" component={App}/>
+            <Route path="/videos/:video" component={Video}/>
+            <Route component={NoMatch}/>
         </Switch>
       </Router>
 )
