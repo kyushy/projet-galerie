@@ -4,6 +4,7 @@ import logo from '../logo.svg';
 import Thumbnails from './Thumbnails';
 import base from '../base.js';
 import '../css/App.css';
+import Sidebar from './Sidebar';
 
 class App extends Component {
   constructor(props) {
@@ -29,12 +30,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {/*<header className="App-header">
+        <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Galerie MBDS</h1>
-        </header>*/}
-        <div className="container">
+        </header>
+        <div className="row">
+        <Sidebar/>
+        <div className="container decale-toi">
+          
           <Thumbnails videos={this.state.videos} side={false}/>
+        </div>
         </div>
       </div>
     );

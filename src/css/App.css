@@ -26,3 +26,12 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+.decale-toi{
+  width: calc(100% - 300px);
+  padding-top: 15px;
+}
+@media (max-width: 767px) {
+.decale-toi{
+  width: 100%;
+}
+}

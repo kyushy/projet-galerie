@@ -21,10 +21,7 @@ class Thumbnails extends Component {
     
     return (
       <div className="Thumbnails">
-        {/*<header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Galerie MBDS</h1>
-        </header>*/}
+
         <div className="container">
           <div className="row">{thumbnails}</div>
         </div>
