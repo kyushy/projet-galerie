@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../css/Thumbnail.css';
+import Stars from './Stars';
 
 class Thumbnail extends Component {
     constructor(props){
@@ -16,17 +17,6 @@ class Thumbnail extends Component {
         return title;
     }
 
-    buildStar(val){
-        
-        let res = "fa fa-star "
-        if(val <= this.props.video.note.val) {
-            console.log(this.props.video.note.val)
-            console.log(val)
-            return res + "star-checked"
-        }
-        return res
-    }   
-
     render() {
         let overlay = null;
         if(this.props.main){
@@ -35,21 +25,17 @@ class Thumbnail extends Component {
                     {this.buildTitle(this.props.video.titre)}
                 </div>
                 <div className="star">
-                    <span className={this.buildStar(1)}></span>
-                    <span className={this.buildStar(2)}></span>
-                    <span className={this.buildStar(3)}></span>
-                    <span className={this.buildStar(4)}></span>
-                    <span className={this.buildStar(5)}></span>
+                    <Stars note={this.props.video.note.val}/>
                 </div>
             </div>;
         }
       return (
-        <div className={"Thumbnail "+ (this.props.main ?"col-sm-4 col-md-3 col-lg-2":"")} onClick={() => this.props.ThumbWasClicked(this.props.video)}>
+        <div className={"Thumbnail "+ (this.props.main ?"col-sm-4 col-md-3 col-lg-2":"")} onClick={() => this.props.ThumbWasClicked(this.props)}>
             <div className="thumb" >
             <img className="thumb-img" src={this.state.url} alt="thumbnail"/>
             {overlay}
             </div>
-            <div>{this.props.video.titre}</div>
+            <div className="align-center">{this.props.video.titre}</div>
             
         </div>
       );
