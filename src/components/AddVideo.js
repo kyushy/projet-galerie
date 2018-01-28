@@ -136,7 +136,7 @@ class AddVideo extends Component {
 
     <div className="modal fade" id="videoModal" tabIndex="-1" role="dialog" aria-labelledby="addVideoModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
-            <div className="modal-content">
+            <div className="modal-content color-normal">
                 <div className="modal-header">
                     <h5 className="modal-title" id="addVideoModalLabel">Ajout d'une video</h5>
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">

@@ -64,7 +64,7 @@ class Video extends Component {
         console.log(this.state.videos)
        
       return (
-        <div className="Video">
+        <div className="Video back-color">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
                 <h1 className="App-title">Galerie MBDS</h1>
@@ -74,7 +74,7 @@ class Video extends Component {
             <div  className="container decale-toi-v row">
             <div id="frame" className="col-sm-8">
             <div className="row">
-                <div className="col-sm-12">{this.state.video.titre}</div>
+                <h4 className="col-sm-12">{this.state.video.titre}</h4>
                 <div className="col-sm-12">
                 <iframe width="560" height="315" title="my video"
                     src={url} 
