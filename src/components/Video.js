@@ -6,6 +6,7 @@ import Stars from './Stars';
 import base from '../base.js';
 import '../css/Video.css';
 import Sidebar from './Sidebar';
+import AddVideo from './AddVideo';
 
 class Video extends Component {
     constructor(props){       
@@ -80,7 +81,7 @@ class Video extends Component {
                     frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen>
                 </iframe>
                 </div>
-                <div className="video-size row">
+                <div className="video-size row padding-top-7">
                     <div className="size-50">
                         <Stars note={this.state.video.note.val} edit={true} StarWarsClicked={this.starClicked.bind(this)}/>
                     </div>
@@ -89,7 +90,7 @@ class Video extends Component {
                     </div>
                   
                 </div>
-                <div className="col-sm-12">
+                <div className="col-sm-12 padding-top-15">
                     {this.state.video.desc}
                     </div>
                 </div>
@@ -102,6 +103,7 @@ class Video extends Component {
             </div>
             </div>
         </div>
+        <AddVideo/>
         </div>
       );
     }

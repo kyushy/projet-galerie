@@ -25,6 +25,15 @@
     text-align: right;
 }
 
+.padding-top-15{
+  padding-top: 15px;
+}
+
+.padding-top-7{
+  padding-top: 7px;
+}
+
+
   
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

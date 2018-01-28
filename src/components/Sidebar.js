@@ -19,13 +19,13 @@ class Sidebar extends Component {
             <ul id="menu-content" className="menu-content collapse out">
                 <li>
                 <Link to='/'>
-                  <i className="fa fa-dashboard fa-lg"></i> Gallerie vidéo
+                  <i className="fa fa-home fa-lg"></i> Gallerie vidéo
                   </Link>
                 </li>
                 
                 <li>
                 <a data-toggle="modal" data-target="#videoModal">
-                  <i className="fa fa-dashboard fa-lg"></i> Ajout de vidéo
+                  <i className="fa fa-youtube-play fa-lg"></i> Ajout de vidéo
                   </a>
                 </li>
 
