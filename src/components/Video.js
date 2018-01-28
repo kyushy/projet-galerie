@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import App from './App.js';
+import logo from '../logo.svg';
 import Thumbnails from './Thumbnails';
 import Stars from './Stars';
 import base from '../base.js';
 import '../css/Video.css';
+import Sidebar from './Sidebar';
 
 class Video extends Component {
     constructor(props){       
@@ -61,8 +63,14 @@ class Video extends Component {
         console.log(this.state.videos)
        
       return (
-        <div className="Video row">
-            <div className="col-sm-2"></div>
+        <div className="Video">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <h1 className="App-title">Galerie MBDS</h1>
+            </header>
+        <div className="row">
+            <Sidebar/>
+            <div  className="container decale-toi-v row">
             <div id="frame" className="col-sm-8">
             <div className="row">
                 <div className="col-sm-12">{this.state.video.titre}</div>
@@ -86,11 +94,14 @@ class Video extends Component {
                     </div>
                 </div>
             </div>
+            <div className="col-sm-2"></div>
             <div id="nav" className="col-sm-2 side-video">
                 <div>
                 <Thumbnails videos={this.state.videos} side={true} />
                 </div>
             </div>
+            </div>
+        </div>
         </div>
       );
     }

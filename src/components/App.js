@@ -5,6 +5,7 @@ import Thumbnails from './Thumbnails';
 import base from '../base.js';
 import '../css/App.css';
 import Sidebar from './Sidebar';
+import AddVideo from './AddVideo';
 
 class App extends Component {
   constructor(props) {
@@ -16,9 +17,12 @@ class App extends Component {
 
   
   componentWillMount() {
-    this.ref = base.syncState("videos", {
+    this.ref = base.bindToState("videos", {
       context: this,
-      state: 'videos'
+      state: 'videos',
+      then(data){
+        console.log(data)
+      }
     });
   }
 
@@ -41,6 +45,7 @@ class App extends Component {
           <Thumbnails videos={this.state.videos} side={false}/>
         </div>
         </div>
+        <AddVideo/>
       </div>
     );
   }

@@ -29,6 +29,7 @@
 .decale-toi{
   width: calc(100% - 300px);
   padding-top: 15px;
+  padding-left: 0px;
 }
 @media (max-width: 767px) {
 .decale-toi{

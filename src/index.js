@@ -9,12 +9,14 @@ import {
 import './css/index.css';
 import App from './components/App';
 import Video from './components/Video';
+import AddVideo from './components/AddVideo';
 import registerServiceWorker from './registerServiceWorker';
 
 const Root = () => (
       <Router>
         <Switch>
             <Route exact path="/" component={App}/>
+            <Route path="/videos/add" component={AddVideo}/>
             <Route path="/videos/:video" component={Video}/>
             <Route component={NoMatch}/>
         </Switch>
