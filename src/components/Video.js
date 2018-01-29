@@ -28,7 +28,8 @@ class Video extends Component {
             nbVideo : 8,
             nbPerPage: 8,
             totVideo : 0,
-            loading : false
+            loading : false,
+            height:0
           };
           this.handleChangeDesc = this.handleChangeDesc.bind(this);
           this.handleChangeTitre = this.handleChangeTitre.bind(this);
@@ -44,7 +45,6 @@ class Video extends Component {
         let sum = scrollviewOffsetY+scrollviewFrameHeight
 
         if (sum >= scrollviewContentHeight && this.state.totVideo > this.state.nbVideo) {
-            console.log("test")
             this.changePage()
             }
     }
@@ -66,11 +66,16 @@ class Video extends Component {
           }
         });
         let tot = 0;
-        fire.database().ref("videos").once("value").then((snapshot)=> 
-        tot = snapshot.numChildren())    
+        fire.database().ref("videos").once("value").then((snapshot)=>{ 
+            tot = snapshot.numChildren();
+            this.setState({
+              totVideo : tot
+            })
+            console.log(tot)
+          } 
+    )    
         this.setState({
-          nbVideo : this.state.nbVideo + this.state.nbPerPage,
-          totVideo : tot
+          nbVideo : this.state.nbVideo + this.state.nbPerPage
         })
       }
     
@@ -87,7 +92,8 @@ class Video extends Component {
         state: 'video',
         then(){
             this.setState({
-            oldVideo : {desc : this.state.video.desc, titre:this.state.video.titre}
+            oldVideo : {desc : this.state.video.desc, titre:this.state.video.titre},
+            height:ReactDOM.findDOMNode(this).getElementsByClassName("row")[0].clientHeight
             })
         }
       });
@@ -198,6 +204,7 @@ class Video extends Component {
         : <button type="button" className="btn btn-danger width-100 margin-top-15" data-toggle="modal" data-target=".bd-modal-sm">Supprimer</button>)
 
         let loading = (this.state.loading?<img src={cat} style={{width:"100%"}} alt="logo" />:"")
+
       return (
           
         <div className="Video back-color">
@@ -235,7 +242,7 @@ class Video extends Component {
                 {blueButton}
                 {redButton}
             </div>
-            <div id="nav" onScroll={this.divScroll} className="col-sm-2 side-video">
+            <div id="nav" onScroll={this.divScroll} className="col-sm-2 side-video" style={{height : this.state.height > 0 ? `${this.state.height}px`: 'calc(100vh - 165px)'}}>
                 <div>
                 <Thumbnails videos={this.state.videos} id={this.state.video} side={true} />
                 {loading}

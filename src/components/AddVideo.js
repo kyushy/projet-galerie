@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import logo from '../logo.svg';
-import base from '../base.js';
+import base from '../fire.js';
 import '../css/App.css';
+import '../css/AddVideo.css';
 import Sidebar from './Sidebar';
 import {withRouter} from "react-router-dom";
 
@@ -13,7 +14,8 @@ class AddVideo extends Component {
       video : {desc: '', id: '', note:{nb:0, val:0}, titre:""},
       url:"",
       already : false,
-      pic : ""
+      pic : "",
+      list : false
     };
 
     this.handleChangeDesc = this.handleChangeDesc.bind(this);
@@ -26,6 +28,10 @@ class AddVideo extends Component {
         data: this.state.video
       }).then(newLocation => {
         this.props.history.push(`/videos/${newLocation.key}`);
+        this.setState({
+            video : {desc: '', id: '', note:{nb:0, val:0}, titre:""},
+            pic : ""
+        })
       }).catch(err => {
         //handle error
       });   
@@ -111,7 +117,7 @@ class AddVideo extends Component {
     handleChangeTitre(event) {
         const video = this.state.video
         video.titre = event.target.value
-    this.setState({video : video});
+        this.setState({video : video});
     }
 
   render() {
@@ -149,6 +155,13 @@ class AddVideo extends Component {
                 </div>
                 <div className="modal-body">
                     <div className="well">
+                        <div className="form-group text-align-left">
+                            Ajout de playlist
+                            <div className="material-switch pull-right col-sm-7">
+                                <input id="someSwitchOptionPrimary" name="someSwitchOption001" checked={this.state.list} type="checkbox"/>
+                                <label htmlFor="someSwitchOptionPrimary" className="    label-primary"></label>
+                            </div>
+                        </div>
                             <div className="form-group">
                                 <label htmlFor="url" className="control-label">Url de la video</label>
                                 <input type="text" className="form-control" id="url" name="url" 

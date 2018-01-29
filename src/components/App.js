@@ -77,11 +77,16 @@ class App extends Component {
       }
     });
     let tot = 0;
-    fire.database().ref("videos").once("value").then((snapshot)=> 
-    tot = snapshot.numChildren())    
+    fire.database().ref("videos").once("value").then((snapshot)=>{ 
+      tot = snapshot.numChildren();
+      this.setState({
+        totVideo : tot
+      })
+      console.log(tot)
+    } 
+  )    
     this.setState({
       nbVideo : this.state.nbVideo + this.state.nbPerPage,
-      totVideo : tot
     })
   }
 
