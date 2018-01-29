@@ -10,10 +10,20 @@ class Stars extends Component {
     }
 
     handleHover(val){
+        if(this.props.selected === undefined){
         this.setState({
             starhover: val
         });
     }
+    }
+
+    componentWillReceiveProps(){
+        if(this.props.selected === undefined){
+            this.setState({
+                starhover: 0
+            });
+    }
+}
 
     starChecked(val){
         let star = "fa fa-star "
@@ -25,7 +35,10 @@ class Stars extends Component {
                 return star+ "star-checked"
             }
         }
-        else if (val <= this.props.note){
+        else if (this.props.selected !== undefined && val <= this.props.selected){
+            return star + "star-selected"
+        }
+        else if (this.props.selected === undefined && val <= this.props.note){
             return star + "star-checked"
         }
         return star
@@ -46,7 +59,7 @@ class Stars extends Component {
             onMouseLeave={() => this.handleHover(0)}
             onClick={() => this.starClicked(i)}></span>);
         }
-        
+
       return (
         <div>
             {list}

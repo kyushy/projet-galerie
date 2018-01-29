@@ -1,5 +1,5 @@
 .side-video{
-    max-height: 100vh;
+    max-height: calc(100vh - 165px);
     overflow-y: scroll;
     direction: rtl;
     padding-left: 1px;
@@ -18,6 +18,10 @@
     margin-left: 15px;
 }
 
+.width-100 {
+  width: 100%;
+}
+
 .size-50{
     width: 50%;
 }
@@ -27,6 +31,10 @@
 
 .padding-top-15{
   padding-top: 15px;
+}
+
+.margin-top-15{
+  margin-top: 15px;
 }
 
 .padding-top-7{
