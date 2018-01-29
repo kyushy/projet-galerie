@@ -180,21 +180,21 @@ class Video extends Component {
             </div>
         </div>
         <AddVideo/>
-        <div class="modal fade bd-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content color-normal">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Supprimer la vidéo ?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div className="modal fade bd-modal-sm" tabIndex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div className="modal-dialog modal-sm">
+                <div className="modal-content color-normal">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLabel">Supprimer la vidéo ?</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div className="modal-body">
                         <img src={`https://img.youtube.com/vi/${this.state.video.id}/0.jpg`} className="width-100" alt="video à supprimer"/>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                        <button type="button" class="btn btn-danger"  data-dismiss="modal" onClick={()=>this.deleteClicked()}>Supprimer</button>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="button" className="btn btn-danger"  data-dismiss="modal" onClick={()=>this.deleteClicked()}>Supprimer</button>
                     </div>
                     </div>
             </div>
