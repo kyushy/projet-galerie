@@ -20,6 +20,7 @@ class Video extends Component {
             nb: 0,
             val: 0},
             titre: ""},
+            oldVideo : {},
             edit: false
           };
           this.handleChangeDesc = this.handleChangeDesc.bind(this);
@@ -52,7 +53,8 @@ class Video extends Component {
 
     modifButtonClicked(){
         this.setState({
-            edit : true
+            edit : true,
+            oldVideo : {desc : this.state.video.desc, titre:this.state.video.titre}
         })
     }
 
@@ -61,8 +63,20 @@ class Video extends Component {
         const {match} = this.props;
         const videos = {...this.state.videos};
         videos[match.params.video] = this.state.video
+
         this.setState({
           videos : videos,
+          edit : false
+        })
+    }
+
+    cancelButtonClicked(){
+        console.log(this.state.oldVideo)
+        let video = this.state.video
+        video.titre = this.state.oldVideo.titre
+        video.desc = this.state.oldVideo.desc
+        this.setState({
+          video : video,
           edit : false
         })
     }
@@ -135,6 +149,9 @@ class Video extends Component {
         let blueButton = (this.state.edit? <button type="button" className="btn btn-primary width-100" onClick={()=>this.validButtonClicked()}>Valider</button> 
         : <button type="button" className="btn btn-primary width-100" onClick={()=>this.modifButtonClicked()}>Modifier</button>)
 
+        let redButton = (this.state.edit? <button type="button" className="btn btn-danger width-100 margin-top-15" onClick={()=>this.cancelButtonClicked()}>Annuler</button> 
+        : <button type="button" className="btn btn-danger width-100 margin-top-15" data-toggle="modal" data-target=".bd-modal-sm">Supprimer</button>)
+
       return (
           
         <div className="Video back-color">
@@ -170,7 +187,7 @@ class Video extends Component {
             </div>
             <div className="col-sm-2">
                 {blueButton}
-                <button type="button" className="btn btn-danger width-100 margin-top-15" data-toggle="modal" data-target=".bd-modal-sm">Supprimer</button>
+                {redButton}
             </div>
             <div id="nav" className="col-sm-2 side-video">
                 <div>
