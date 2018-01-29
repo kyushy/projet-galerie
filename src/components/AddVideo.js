@@ -72,9 +72,12 @@ class AddVideo extends Component {
     handleChangeUrl(event) {
         const video = this.state.video
         let url = event.target.value.split("v=")[1]
+        if(url === undefined){
+            url = event.target.value.split("youtu.be/")[1]
+        }
         if(url!=undefined){
-            
-            video.id = url.split("&")[0]
+            let tmp = url.split("&")[0]
+            video.id = tmp.split("?")[0]
             base.fetch('videos', {
                 context: this,
                 asArray:true,
@@ -97,7 +100,8 @@ class AddVideo extends Component {
         else {
             video.id = ""
             this.setState({
-                video : video
+                video : video,
+                already : false
             });
         }
         this.setState({

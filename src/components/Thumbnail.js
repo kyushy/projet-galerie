@@ -29,8 +29,9 @@ class Thumbnail extends Component {
                 </div>
             </div>;
         }
+
       return (
-        <div className={"Thumbnail "+ (this.props.main ?"col-sm-4 col-md-3 col-lg-2":"")} onClick={() => this.props.ThumbWasClicked(this.props)}>
+        <div hidden={(this.props.idParent!==undefined && this.props.idParent.id === this.props.video.id)} className={"Thumbnail "+ (this.props.main ?"col-sm-4 col-md-3 col-lg-2":"")} onClick={() => this.props.ThumbWasClicked(this.props)}>
             <div className="thumb" >
             <img className="thumb-img" src={this.state.url} alt="thumbnail"/>
             {overlay}

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import App from './App.js';
 import logo from '../logo.svg';
+import cat from '../cat.svg';
 import Thumbnails from './Thumbnails';
 import Stars from './Stars';
-import base from '../base.js';
+import base from '../fire.js';
+import fire from '../base.js';
 import '../css/Video.css';
 import Sidebar from './Sidebar';
 import AddVideo from './AddVideo';
@@ -21,34 +24,83 @@ class Video extends Component {
             val: 0},
             titre: ""},
             oldVideo : {},
-            edit: false
+            edit: false,
+            nbVideo : 8,
+            nbPerPage: 8,
+            totVideo : 0,
+            loading : false
           };
           this.handleChangeDesc = this.handleChangeDesc.bind(this);
           this.handleChangeTitre = this.handleChangeTitre.bind(this);
+          this.divScroll = this.divScroll.bind(this)
     }
 
-    
-  componentDidMount() {
-    this.ref = base.syncState("videos", {
-      context: this,
-      state: 'videos',
-      then(data){
+    divScroll(event){
+        let dom = ReactDOM.findDOMNode(this).getElementsByClassName("side-video")[0]
+
+        let scrollviewOffsetY = dom.scrollTop
+        let scrollviewFrameHeight = dom.clientHeight
+        let scrollviewContentHeight = dom.scrollHeight
+        let sum = scrollviewOffsetY+scrollviewFrameHeight
+
+        if (sum >= scrollviewContentHeight && this.state.totVideo > this.state.nbVideo) {
+            console.log("test")
+            this.changePage()
+            }
+    }
+
+    changePage(){
         this.setState({
-            video: this.state.videos[this.props.match.params.video]
+          loading:true
+        })
+        base.bindToState("videos", {
+          context: this,
+          state: 'videos',
+          queries:{
+            limitToLast:this.state.nbVideo + this.state.nbPerPage
+          },
+          then(data){
+            this.setState({
+              loading:false
+            })
+          }
+        });
+        let tot = 0;
+        fire.database().ref("videos").once("value").then((snapshot)=> 
+        tot = snapshot.numChildren())    
+        this.setState({
+          nbVideo : this.state.nbVideo + this.state.nbPerPage,
+          totVideo : tot
         })
       }
-    });
     
+  componentDidMount() {
+    base.bindToState("videos", {
+      context: this,
+      state: 'videos',
+      queries:{
+        limitToLast:this.state.nbVideo
+      }
+    });
+    this.ref = base.syncState(`videos/${this.props.match.params.video}`, {
+        context: this,
+        state: 'video',
+        then(){
+            this.setState({
+            oldVideo : {desc : this.state.video.desc, titre:this.state.video.titre}
+            })
+        }
+      });
+      fire.database().ref("videos").once("value").then((snapshot)=> 
+    this.setState({totVideo : snapshot.numChildren()}))
   }
 
   componentWillReceiveProps(newProps){
-    this.setState({
-        video: this.state.videos[newProps.match.params.video]
-    })
-  }
-
-  componentWillUnmount() {
-    base.removeBinding(this.ref);
+      base.removeBinding(this.ref)
+    this.ref = base.syncState(`videos/${newProps.match.params.video}`, {
+        context: this,
+        state: 'video'
+      });
   }
 
     modifButtonClicked(){
@@ -59,24 +111,18 @@ class Video extends Component {
     }
 
     validButtonClicked(){
-
         const {match} = this.props;
-        const videos = {...this.state.videos};
-        videos[match.params.video] = this.state.video
-
+        let video = this.state.video;
+        video.desc = this.state.oldVideo.desc
+        video.titre= this.state.oldVideo.titre
         this.setState({
-          videos : videos,
+          video : video,
           edit : false
         })
     }
 
     cancelButtonClicked(){
-        console.log(this.state.oldVideo)
-        let video = this.state.video
-        video.titre = this.state.oldVideo.titre
-        video.desc = this.state.oldVideo.desc
         this.setState({
-          video : video,
           edit : false
         })
     }
@@ -84,23 +130,22 @@ class Video extends Component {
     deleteClicked(){
 
         const {match} = this.props;
-        const videos = {...this.state.videos};
-        videos[match.params.video] = null
+        let video = this.state.video;
+        video = null
         this.setState({
-          videos : videos
+          video : video
         })
         this.props.history.push(`/`);
     }
 
     starClicked(val){
         const {match} = this.props;
-        const videos = {...this.state.videos};
-        videos[match.params.video].note.val = ((videos[match.params.video].note.val * videos[match.params.video].note.nb) 
-        + val )/ (videos[match.params.video].note.nb+1);
-        videos[match.params.video].note.nb ++
+        let video = this.state.video;
+        video.note.val = ((video.note.val * video.note.nb) 
+        + val )/ (video.note.nb+1);
+        video.note.nb ++
         this.setState({
-          videos : videos,
-          video: this.state.videos[this.props.match.params.video]
+          video: video
         })
         let notes = localStorage.getItem('notes')
         if(notes === null){
@@ -114,14 +159,14 @@ class Video extends Component {
         localStorage.setItem('notes', JSON.stringify(notes))
       }
       handleChangeDesc(event) {
-        const video = this.state.video
+        let video = this.state.oldVideo
         video.desc = event.target.value
-        this.setState({video : video});
+        this.setState({oldVideo : video});
     }
     handleChangeTitre(event) {
-        const video = this.state.video
+        let video = this.state.oldVideo
         video.titre = event.target.value
-        this.setState({video : video});
+        this.setState({oldVideo : video});
     }
 
     render() { 
@@ -138,12 +183,12 @@ class Video extends Component {
        
        let titre = (this.state.edit ? 
        <div className="col-sm-12">
-       <input type="text" className="form-control col-sm-12" id="titre" name="titre" value={this.state.video.titre} onChange={this.handleChangeTitre} title="Entrer le titre de la video"
+       <input type="text" className="form-control col-sm-12" id="titre" name="titre" value={this.state.oldVideo.titre} onChange={this.handleChangeTitre} title="Entrer le titre de la video"
                                 /></div>
         :<h4 className="col-sm-12">{this.state.video.titre}</h4>)
 
         let desc = (this.state.edit ?
-        <textarea className="form-control" id="desc" name="desc" value={this.state.video.desc} onChange={this.handleChangeDesc}
+        <textarea className="form-control" id="desc" name="desc" value={this.state.oldVideo.desc} onChange={this.handleChangeDesc}
                                 ></textarea>
                                 :this.state.video.desc)
         let blueButton = (this.state.edit? <button type="button" className="btn btn-primary width-100" onClick={()=>this.validButtonClicked()}>Valider</button> 
@@ -152,6 +197,7 @@ class Video extends Component {
         let redButton = (this.state.edit? <button type="button" className="btn btn-danger width-100 margin-top-15" onClick={()=>this.cancelButtonClicked()}>Annuler</button> 
         : <button type="button" className="btn btn-danger width-100 margin-top-15" data-toggle="modal" data-target=".bd-modal-sm">Supprimer</button>)
 
+        let loading = (this.state.loading?<img src={cat} style={{width:"100%"}} alt="logo" />:"")
       return (
           
         <div className="Video back-color">
@@ -189,9 +235,10 @@ class Video extends Component {
                 {blueButton}
                 {redButton}
             </div>
-            <div id="nav" className="col-sm-2 side-video">
+            <div id="nav" onScroll={this.divScroll} className="col-sm-2 side-video">
                 <div>
-                <Thumbnails videos={this.state.videos} side={true} />
+                <Thumbnails videos={this.state.videos} id={this.state.video} side={true} />
+                {loading}
                 </div>
             </div>
             </div>
