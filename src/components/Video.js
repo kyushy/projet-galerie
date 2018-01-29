@@ -114,7 +114,9 @@ class Video extends Component {
         
         let url = "https://www.youtube.com/embed/"+ this.state.video.id
 
-        let note = JSON.parse(localStorage.getItem('notes'))[this.props.match.params.video]
+        let notes = localStorage.getItem('notes')
+        if(notes !== undefined)
+            let note = JSON.parse(notes)[this.props.match.params.video]
         let star = (note!==undefined ? 
         <Stars note={this.state.video.note.val} edit={false} selected={note}/>:
         <Stars note={this.state.video.note.val} edit={true} StarWarsClicked={this.starClicked.bind(this)}/>)
