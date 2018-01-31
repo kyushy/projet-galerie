@@ -14,10 +14,11 @@ class App extends Component {
     super(props);
     this.state = {
       videos : {},
-      nbVideo : 18,
       nbPerPage: 18,
+      page : 1,
       totVideo : 0,
-      loading : false
+      loading : false,
+      intervalId: 0
     };
     this.handleScroll = this.handleScroll.bind(this);
   }
@@ -31,7 +32,7 @@ class App extends Component {
       context: this,
       state: 'videos',
       queries:{
-        limitToLast:this.state.nbVideo
+        limitToLast:this.state.nbPerPage
       },
       then(data){
         this.setState({
@@ -39,10 +40,27 @@ class App extends Component {
         })
       }
     });
-    fire.database().ref("videos").once("value").then((snapshot)=> 
-    this.setState({totVideo : snapshot.numChildren()}))
+    fire.database().ref("videos").once("value").then((snapshot)=> {
+    this.setState({totVideo : snapshot.numChildren()})})
     window.addEventListener("scroll", this.handleScroll);
   }
+
+  toTheTop() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+} 
+
+scrollStep() {
+  if (window.pageYOffset === 0) {
+      clearInterval(this.state.intervalId);
+  }
+  window.scroll(0, window.pageYOffset - 100);
+}
+
+scrollToTop() {
+  let intervalId = setInterval(this.scrollStep.bind(this), 10);
+  this.setState({ intervalId: intervalId });
+}
 
   handleScroll() {
     const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
@@ -50,8 +68,15 @@ class App extends Component {
     const html = document.documentElement;
     const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
     const windowBottom = windowHeight + window.pageYOffset;
-    if (windowBottom >= docHeight && this.state.totVideo > this.state.nbVideo) {
+   
+    if (windowBottom >= docHeight && this.state.totVideo > (this.state.nbPerPage * this.state.page)) {
       this.changePage();
+    }
+    if(html.scrollTop > windowHeight){
+      document.getElementById("backToTop").style.display = "block";
+    }
+    else{
+      document.getElementById("backToTop").style.display = "none";
     }
   }
 
@@ -73,7 +98,7 @@ class App extends Component {
       context: this,
       state: 'videos',
       queries:{
-        limitToLast:this.state.nbVideo + this.state.nbPerPage
+        limitToLast: this.state.nbPerPage * (this.state.page+1)
       },
       then(data){
         this.setState({
@@ -90,7 +115,7 @@ class App extends Component {
     } 
   )    
     this.setState({
-      nbVideo : this.state.nbVideo + this.state.nbPerPage,
+      page : this.state.page+1
     })
   }
 
@@ -105,9 +130,10 @@ class App extends Component {
         </header>
         <div className="row">
         <Sidebar/>
+        <button onClick={()=>this.scrollToTop()} className="btn btn-secondary" id="backToTop" title="backToTop"><i className="fa fa-arrow-up fa-lg"></i></button> 
         <div className="container decale-toi">
           
-          <Thumbnails videos={this.state.videos} side={false}/>
+        <Thumbnails videos={this.state.videos} side={false}/>
           {loading}
         </div>
         </div>

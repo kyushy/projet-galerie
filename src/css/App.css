@@ -47,3 +47,18 @@
   width: 100%;
 }
 }
+#backToTop {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 210px;
+  z-index: 99; 
+  background-color: #222;
+  color: #e1ffff; 
+  cursor: pointer; 
+  padding: 15px; 
+}
+
+#backToTop:hover {
+  background-color: #4f5b69; /* Add a dark-grey background on hover */
+}

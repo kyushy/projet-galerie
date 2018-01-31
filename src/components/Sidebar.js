@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import '../css/Sidebar.css';
-import Link from 'react-router-dom/Link';
+import {withRouter} from "react-router-dom";
 
 class Sidebar extends Component {
   constructor(props) {
     super(props);
+  }
+
+
+  click(){
+    this.props.history.push(`/`);
   }
 
   render() {
@@ -17,16 +21,12 @@ class Sidebar extends Component {
         <div className="menu-list">
   
             <ul id="menu-content" className="menu-content collapse out">
-                <li>
-                <Link to='/'>
+                <li onClick={()=>this.click()}>
                   <i className="fa fa-home fa-lg"></i> Gallerie vidéo
-                  </Link>
                 </li>
                 
-                <li>
-                <a data-toggle="modal" data-target="#videoModal">
+                <li data-toggle="modal" data-target="#videoModal">
                   <i className="fa fa-youtube-play fa-lg"></i> Ajout de vidéo
-                  </a>
                 </li>
 
             </ul>
@@ -36,4 +36,4 @@ class Sidebar extends Component {
 }
 }
 
-export default Sidebar;
+export default withRouter(Sidebar);

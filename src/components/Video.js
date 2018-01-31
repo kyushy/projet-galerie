@@ -233,7 +233,7 @@ class Video extends Component {
                     </div>
                   
                 </div>
-                <div className="col-sm-12 padding-top-15">
+                <div className="col-sm-12 padding-top-15 max-height-600">
                     {desc}
                     </div>
                 </div>
