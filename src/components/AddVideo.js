@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import base from '../fire.js';
+import fire from '../base.js';
 import cat from '../catB.svg';
 import '../css/App.css';
 import '../css/AddVideo.css';
@@ -41,15 +42,28 @@ class AddVideo extends Component {
       });   
   }
 
-  addVideoList(video){
-    base.push('videos', {
-        data: video
-      }).then(newLocation => {
-        //this.props.history.push(`/videos/${newLocation.key}`);
-        console.log("count")
+  addVideos(){
+    let ref = fire.database().ref("videos")
+    let updates = {}
+    for(let i=0; i < this.state.playlist.videos.length; i++){
+        updates['/'+ref.push().key] = this.state.playlist.videos[i]
+    }
+    base.update('videos', {
+        data: updates
+      }).then(() => {
+        //console.log("done")
+        this.props.history.push(`/`);
       }).catch(err => {
         //handle error
-      });    
+      });
+  }
+
+  removeVideo(id){
+      const playlist = this.state.playlist
+      playlist.videos.splice(id,1)
+      this.setState({
+          playlist:playlist
+      })
   }
 
   loadInfo(){
@@ -126,23 +140,27 @@ class AddVideo extends Component {
                                         video.id = res.items[i].snippet.resourceId.videoId
                                         video.desc = res.items[i].snippet.description
                                         video.titre = res.items[i].snippet.title
-                                        playlist.videos.push(video)
+                                        if(video.titre !== "Private video" && video.desc !== "This video is private."){
+                                            playlist.videos.push(video)
+                                            this.setState({
+                                                playlist : playlist})
+                                        }
                                     }                          
                             }).catch(error => {
                                 //handle error
                             })
-                        }
+                        }                        
                         if(res.nextPageToken === undefined){
                             this.setState({
-                                playlist : playlist,
                                 done:true,
                                 loading:false
-                            })    
+                            })
                         }                                
                 })
             .catch(function (err) {
                 console.log(err);
         });
+        
     }
   }
 
@@ -228,8 +246,7 @@ class AddVideo extends Component {
     }
     
 
-  render() {
-      
+  render() {      
       let sendButton = null
       let alert = null
       let pic = null
@@ -237,10 +254,11 @@ class AddVideo extends Component {
       let loading = null
       let pics = []
 
+      
       if(this.state.done && this.state.playlist.videos.length > 0){
         for(let i=0; i < this.state.playlist.videos.length; i++){
-            pics.push(<div className="col-sm-4">
-                <div className="thumb">
+            pics.push(<div key={i} className="col-sm-4 padding-bot">
+                <div className="thumb " onClick={()=> this.removeVideo(i)}>
                 <img className="thumb-img" key={i} src={`https://i.ytimg.com/vi/${this.state.playlist.videos[i].id}/default.jpg`} alt="logo" />
                 <div className="overlay red">
                 <div className="text-center">
@@ -250,7 +268,7 @@ class AddVideo extends Component {
                 </div>
                 </div>)
         }
-        }  
+        } 
       
       if(this.state.loading){
             loading = <img src={cat} style={{width:"50%"}} alt="logo" />

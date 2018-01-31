@@ -25,6 +25,11 @@
   .thumb {
     position: relative;
   }
+
+  .thumb:hover {
+    cursor: pointer;
+    
+  }
   
   .star {
     color: white;

@@ -57,15 +57,18 @@
     left: 50%;
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
-    color: rgb(216, 212, 212);
+    color: rgb(243, 243, 243);
     font-weight: 600;
     text-align: center;
     width: 100%;
   }
 
   .red{
-      background-color: rgba(240, 35, 35, 0.5);
+      background-color: rgba(240, 35, 35, 0.6);
   }
+.padding-bot{
+    padding-bottom: 10px;
+}
 
 .list-video{
     max-height: 500px;

@@ -17,6 +17,12 @@ class Thumbnail extends Component {
         return title;
     }
 
+    componentWillReceiveProps(newProps){
+        this.setState({
+            url: "https://img.youtube.com/vi/"+ newProps.video.id +"/0.jpg"
+        })
+    }
+
     render() {
         let overlay = null;
         if(this.props.main){

@@ -10,7 +10,6 @@ class Thumbnails extends Component {
     super(props);
   }
 
-
   showVideo(key){
       this.props.history.push('/videos/'+key.v)
   }

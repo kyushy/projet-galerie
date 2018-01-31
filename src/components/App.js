@@ -60,6 +60,11 @@ class App extends Component {
     window.removeEventListener("scroll", this.handleScroll);
   }
 
+  componentWillReceiveProps(newProps){
+    fire.database().ref("videos").once("value").then((snapshot)=> 
+    this.setState({totVideo : snapshot.numChildren()}))
+  }
+
   changePage(){
     this.setState({
       loading:true
@@ -82,7 +87,6 @@ class App extends Component {
       this.setState({
         totVideo : tot
       })
-      console.log(tot)
     } 
   )    
     this.setState({
@@ -92,7 +96,6 @@ class App extends Component {
 
 
   render() {
-
     let loading = (this.state.loading?<img src={cat} style={{width:"300px"}} alt="logo" />:"")
     return (
       <div className="App back-color">
