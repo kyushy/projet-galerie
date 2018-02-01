@@ -18,7 +18,8 @@ class AddVideo extends Component {
       list : false,
       playlist : {id : "", tot:0,videos : []},
       done : false,
-      loading:false
+      loading:false,
+      nope:false
     };
 
     this.handleChangeDesc = this.handleChangeDesc.bind(this);
@@ -89,7 +90,8 @@ class AddVideo extends Component {
                     video.titre = ""
                     this.setState({
                         video : video,
-                        pic : ""
+                        pic : "",
+                        nope : true
                     })
                 }
             });
@@ -205,7 +207,8 @@ class AddVideo extends Component {
             });
         }
         this.setState({
-            url: event.target.value
+            url: event.target.value,
+            nope:false
         })
     }
     handleChangeList(event) {
@@ -241,7 +244,8 @@ class AddVideo extends Component {
             pic : "",
             already : false,
             playlist : {id : "", tot:0,videos : []},
-            done:false
+            done:false,
+            nope:false
         })
     }
     
@@ -300,12 +304,18 @@ class AddVideo extends Component {
       }
 
 
-    alert = this.state.already ?
-        <div className="alert alert-warning">
+    if(this.state.already)
+        alert = <div className="alert alert-warning">
             <strong>Attention!</strong> Vidéo déjà dans la base de donnée.
         </div>
-        : null  
-        pic = this.state.pic !== "" ?
+    else if(this.state.nope ){
+        alert = <div className="alert alert-warning">
+            <strong>Attention!</strong> Id de la vidéo non trouvé.
+        </div>
+    }
+    else
+        alert = null
+    pic = this.state.pic !== "" ?
         <img className="thumb-img" src={this.state.pic} alt="thumbnail"/>
         : null  
 
